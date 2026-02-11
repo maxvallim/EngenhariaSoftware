@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula 02 – PlantUML no VS Code</title>
+  <style>
+    body { background:#ffffff; color:#000000; font-family: Arial, Helvetica, sans-serif; line-height:1.6; margin:40px auto; max-width:900px; padding:0 20px; }
+    h1, h2, h3 { font-weight:700; }
+    h1 { font-size:38px; }
+    h2 { font-size:26px; margin-top:40px; }
+    h3 { font-size:20px; }
+    p { font-size:18px; margin-bottom:15px; }
+    ul { font-size:18px; margin-left:25px; }
+    .box { border-left:5px solid #000; padding-left:15px; margin:25px 0; }
+    code { background:#f4f4f4; padding:2px 6px; border-radius:5px; }
+    pre { background:#f4f4f4; padding:12px; border-radius:6px; overflow:auto; }
+    .footer { margin-top:60px; padding-top:30px; text-align:center; font-size:14px; border-top:1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>Engenharia de Software</h1>
+  <h3>Professor: Max Streicher Vallim</h3>
+
+  <div class="box">
+    <h2>Aula 02 – Introdução ao PlantUML no Visual Studio Code</h2>
+    <ul>
+      <li>Entender o que é PlantUML e por que usar em Engenharia de Software.</li>
+      <li>Instalar e configurar PlantUML no VS Code (extensão + Java + Graphviz).</li>
+      <li>Criar diagramas: Caso de Uso, Sequência e Atividade.</li>
+      <li>Exportar imagens e integrar com o repositório GitHub.</li>
+    </ul>
+  </div>
+
+  <h2>1. O que é PlantUML?</h2>
+  <p>PlantUML é uma linguagem textual para criar diagramas UML. Em vez de desenhar manualmente, você descreve o diagrama em texto e o PlantUML gera a imagem. É perfeito para versionar em Git, revisar por PR e manter documentação enxuta.</p>
+  <ul>
+    <li>Suporta: Casos de Uso, Atividade, Sequência, Classe, Componentes, Estados, entre outros.</li>
+    <li>Vantagens: rastreável, colaborativo, automatizável e simples de manter.</li>
+  </ul>
+
+  <h2>2. Instalação e Configuração</h2>
+  <h3>2.1 Extensão do VS Code</h3>
+  <ul>
+    <li>Abrir o VS Code → <strong>Extensions</strong> (<code>Ctrl+Shift+X</code>).</li>
+    <li>Buscar por <strong>PlantUML</strong> e instalar a extensão (autor: <em>jebbs</em>).</li>
+  </ul>
+
+  <h3>2.2 Java (obrigatório)</h3>
+  <p>Instale o <strong>OpenJDK 17</strong> (ou compatível). Verifique no terminal:</p>
+  <pre><code>java -version</code></pre>
+
+  <h3>2.3 Graphviz</h3>
+  <p>Instale o Graphviz para renderização de certos diagramas. Após instalar, verifique:</p>
+  <pre><code>dot -V</code></pre>
+
+  <h2>3. Seu primeiro diagrama</h2>
+  <p>Crie um arquivo <code>diagrama.puml</code> e cole:</p>
+  <pre><code class="language-plantuml">@startuml
+Alice -> Bob: Olá Bob
+Bob --> Alice: Oi Alice!
+@enduml</code></pre>
+  <p>Visualize com <strong>Alt + D</strong> (Preview) ou pelo botão <em>Preview Current Diagram</em>.</p>
+
+  <h2>4. Exemplos prontos</h2>
+  <h3>4.1 Caso de Uso</h3>
+  <pre><code class="language-plantuml">@startuml
+actor "Usuário" as U
+rectangle Sistema {
+  U --> (Login)
+  U --> (Realizar Pedido)
+  U --> (Consultar Histórico)
+}
+@enduml</code></pre>
+
+  <h3>4.2 Sequência</h3>
+  <pre><code class="language-plantuml">@startuml
+actor Cliente
+participant Sistema
+participant "Serviço de Pagamento" as Pag
+
+Cliente -> Sistema: Inicia Compra
+Sistema -> Pag: Solicita Pagamento
+Pag --> Sistema: Confirmação
+Sistema --> Cliente: Compra Aprovada
+@enduml</code></pre>
+
+  <h3>4.3 Atividade</h3>
+  <pre><code class="language-plantuml">@startuml
+start
+:Cliente acessa o app;
+:Seleciona produto;
+:Confirma compra;
+if (Pagamento aprovado?) then (sim)
+  :Exibe recibo;
+else (não)
+  :Exibe erro;
+endif
+stop
+@enduml</code></pre>
+
+  <div class="box">
+    <h2>5. Organização no repositório</h2>
+    <pre><code>/design
+  /uml
+    caso-uso.puml
+    atividade-login.puml
+    sequencia-compra.puml
+</code></pre>
+    <p>Para incluir imagens em docs, exporte o diagrama (botão direito → <em>Export Current Diagram</em>) em <code>.png</code> ou <code>.svg</code>.</p>
+  </div>
+
+  <h2>6. Integração com GitHub</h2>
+  <ul>
+    <li>Faça commit dos arquivos <code>.puml</code> e, se necessário, das imagens exportadas.</li>
+    <li>Abra PR para revisão do conteúdo (texto do diagrama é revisável!).</li>
+    <li>Referencie imagens em Markdown (README, Wiki):</li>
+  </ul>
+  <pre><code>![Sequência de Compra](design/uml/sequencia-compra.png)</code></pre>
+
+  <div class="box">
+    <h2>7. Exercício da Aula 02</h2>
+    <p><strong>Atividade</strong>: criar três arquivos <code>.puml</code> em <code>design/uml/</code> e exportar as imagens correspondentes.</p>
+    <ol>
+      <li><code>caso-uso-sistema.puml</code></li>
+      <li><code>atividade-autenticacao.puml</code></li>
+      <li><code>sequencia-pedido.puml</code></li>
+    </ol>
+    <p>Fluxo esperado: abrir uma Issue → mover no Kanban → criar branch <code>feature/diagramas-aula02</code> → PR para revisão.</p>
+  </div>
+
+  <div class="footer">
+    Aula 02 – PlantUML no VS Code • UNIFEOB • 2026.1
+  </div>
+</body>
+</html>
