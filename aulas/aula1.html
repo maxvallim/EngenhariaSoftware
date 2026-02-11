@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aula 01 – Engenharia de Software</title>
+<style>
+        body {
+            background: #ffffff;
+            color: #000000;
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            margin: 40px auto;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+           ;
+        }
+
+        h1 { font-size: 38px; }
+        h2 { font-size: 26px; margin-top: 40px; }
+        h3 { font-size: 20px; }
+
+        p { font-size: 18px; margin-bottom: 15px; }
+
+        ul {
+            font-size: 18px;
+            margin-left: 25px;
+        }
+
+        .box {
+            border-left: 5px solid black;
+            padding-left: 15px;
+            margin: 25px 0;
+        }
+
+        code, pre {
+            background: #f4f4f4;
+            padding: 10px;
+            display: block;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<h1>Engenharia de Software</h1>
+<h3>Professor: Max Streicher Vallim</h3>
+<div class="box">
+<h2>Principais objetivos da Unidade de Estudos:</h2>
+<ul>
+<li>Entender o papel da Engenharia de Software no desenvolvimento moderno.</li>
+<li>Conhecer os principais ciclos de vida do software.</li>
+<li>Compreender como a Engenharia de Software se integra ao Projeto Integrado.</li>
+</ul>
+</div>
+<div class="box">
+<h2>Durante o semestre, iremos trabalhar:</h2>
+<ul>
+<li>Requisitos funcionais e não funcionais.</li>
+<li>Casos de uso, diagramas de atividades e sequência.</li>
+<li>Arquitetura e projeto de classes.</li>
+<li>GitHub (Issues, PRs, branching model, Wiki, ADRs).</li>
+<li>Documentação, rastreabilidade e boas práticas.</li>
+</ul>
+<p>
+			Tudo isso conectado ao Projeto Integrado e ao desenvolvimento mobile, conforme o planejamento com as demais Unidades de Estudos. 
+		</p>
+</div>
+<div class="box">
+<h2>Etapas de validação no Projeto Empresarial:</h2>
+<ul>
+<li>24/02 - Visão do Produto:Criação do repositório GitHub; Documento de Visão do Produto; Estrutura inicial do README (problema, público, objetivo); Backlog rascunho (épicos iniciais). </li>
+<li>03/03 - Requisitos do Sistema: Requisitos funcionais e não funcionais; clareza de escopo; backlog com épicos e user stories.</li>
+<li>10/03 - Casos de Uso e Fluxos do Sistema: Casos de uso; fluxos alternativos, relação casos de uso com funcionalidades do MVP.</li>
+<li>07/04 - Modelagem Comportamental - Fluxos detalhados; diagramas de atividades e diagramas de sequência dos principais casos.</li>
+<li>19/05 - Documentação Oficial do Sistema e Pacote Final de Engenharia: README completo, docs em Markdown, diagramas, arquitetura final, ADRs, estrutura final do repositório. </li>
+</ul>
+</div>
+<h2>1. O que é Engenharia de Software?</h2>
+<p>
+        Engenharia de Software é a área que aplica princípios, métodos, técnicas e ferramentas para
+        desenvolver software de forma organizada, previsível, escalável e colaborativa. Seu objetivo é
+        reduzir falhas, melhorar a qualidade e dar estrutura ao processo de desenvolvimento.
+    </p>
+<ul>
+<li>Evita retrabalho e desperdício.</li>
+<li>Aumenta a confiabilidade do sistema.</li>
+<li>Organiza e padroniza processos.</li>
+<li>Facilita trabalho em equipe e manutenção.</li>
+</ul>
+<h2>2. Por que Engenharia de Software é necessária?</h2>
+<p>
+        Projetos falham por falta de documentação, comunicação fraca, ausência de processos e
+        requisitos mal definidos. A Engenharia de Software surge para mitigar esses riscos.
+    </p>
+<ul>
+<li>Ajuda a lidar com complexidade crescente.</li>
+<li>Reduz riscos e incertezas.</li>
+<li>Melhora previsibilidade de tempo e entrega.</li>
+<li>Evita colapsos comuns em equipes iniciais.</li>
+</ul>
+<h2>3. Ciclos de Vida do Software</h2>
+<h3>⚫ Cascata (Waterfall)</h3>
+<ul>
+<li>Sequencial, rígido, cada etapa depende da anterior.</li>
+<li>Bom para requisitos estáveis.</li>
+</ul>
+<h3>⚫ Incremental</h3>
+<ul>
+<li>Entrega funcionalidade por partes.</li>
+<li>Mais flexível e adaptável.</li>
+</ul>
+<h3>⚫ Iterativo</h3>
+<ul>
+<li>Ciclos repetidos refinam o produto.</li>
+<li>Aprendizado contínuo.</li>
+</ul>
+<h3>⚫ Ágil (Scrum / Kanban)</h3>
+<ul>
+<li>Feedback rápido e entregas curtas.</li>
+<li>Perfeito para apps mobile, onde tudo muda rápido.</li>
+<li>Colaboração e adaptação constantes.</li>
+</ul>
+<h2>4. Atividade Prática — Criando seu Repositório</h2>
+<h3>📌 Estrutura sugerida</h3>
+<pre>
+/docs
+/src
+/tests
+/design
+.github/
+    ISSUE_TEMPLATE/
+    PULL_REQUEST_TEMPLATE.md
+README.md
+LICENSE
+</pre>
+<h3>📌 Branches sugeridos</h3>
+<ul>
+<li><strong>main</strong> — versão estável</li>
+<li><strong>develop</strong> — desenvolvimento contínuo</li>
+<li><strong>feature/&lt;nome&gt;</strong> — novas funcionalidades</li>
+</ul>
+<h3>📌 Modelo de README inicial</h3>
+<pre>
+# Projeto Integrado – Desenvolvimento de Sistemas Móveis
+**Unidade de Estudos:** Engenharia de Software  
+**Semestre:** 2026.1  
+
+## Equipe
+- Nome 1  
+- Nome 2  
+- Nome 3  
+- Nome 4  
+
+## Descrição do Projeto
+Breve texto sobre o problema e a solução.
+
+## Estrutura do Repositório
+- /docs – documentos e diagramas  
+- /src – código  
+- /tests – testes  
+- /design – protótipos  
+
+## Processo de Desenvolvimento
+- Modelo: Ágil  
+- Branches: main / develop / feature  
+
+## Backlog
+Criado no GitHub Projects.
+</pre>
+<h2>6. Checklist de entrega da aula</h2>
+<ul>
+<li>Repositório criado no GitHub</li>
+<li>README básico publicado</li>
+<li>Branches configurados</li>
+<li>Primeira Issue criada</li>
+<li>Primeiro Pull Request aberto</li>
+<li>Projeto (Kanban) criado e vinculado</li>
+</ul>
+</body>
+<div class="box">
+<h2>GitHub — Issues, PRs, Branching, Wiki e ADRs</h2>
+<p>Resumo prático do que usaremos no projeto para organizar trabalho em equipe, revisar entregas e documentar decisões.</p>
+<h3>1) Issues — tarefas, bugs e ideias</h3>
+<ul>
+<li>Registro de atividades: requisitos, bugs, melhorias e dúvidas.</li>
+<li>Permitem atribuir responsáveis, etiquetas (labels), prioridade e vínculo com PRs.</li>
+<li>Usaremos no quadro Kanban (To Do → Doing → Done).</li>
+</ul>
+<h3>2) Pull Requests (PRs) — pedido de revisão</h3>
+<ul>
+<li>Ao concluir uma tarefa em uma branch, abrimos um PR para mesclar em <strong>develop</strong> ou <strong>main</strong>.</li>
+<li>Serve para revisão por pares, comentários e checagens antes de integrar.</li>
+<li>Histórico vivo das mudanças e discussões técnicas.</li>
+</ul>
+<h3>3) Branching Model — fluxo de trabalho</h3>
+<ul>
+<li><strong>main</strong> — versão estável (o que “vai para produção”).</li>
+<li><strong>develop</strong> — integração contínua das funcionalidades.</li>
+<li><strong>feature/&lt;nome&gt;</strong> — uma branch por tarefa/funcionalidade (ex.: <code>feature/login</code>).</li>
+</ul>
+<h3>4) Wiki — documentação do projeto</h3>
+<ul>
+<li>Espaço colaborativo para Visão do Produto, Requisitos, Casos de Uso, Diagramas e Glossário.</li>
+<li>Útil para manter documentação clara e acessível à equipe.</li>
+</ul>
+<h3>5) ADRs — Architecture Decision Records</h3>
+<p>Documentos curtos (Markdown) que registram decisões arquiteturais importantes: a decisão, o contexto, alternativas e consequências.</p>
+<pre><code># ADR 001 — Escolha da arquitetura do app
+
+## Decisão
+Utilizar arquitetura MVC para o aplicativo mobile.
+
+## Contexto
+Equipe tem prazo curto e familiaridade com MVC; complexidade baixa neste MVP.
+
+## Alternativas consideradas
+- MVVM
+- Clean Architecture
+
+## Consequências
++ Implementação simples e rápida
+- Menos escalável para futuras camadas</code></pre>
+<p><strong>Mensagem-chave para a turma:</strong> Issues organizam o trabalho; branches isolam mudanças; PRs garantem revisão; Wiki documenta; ADRs registram decisões — isso é Engenharia de Software na prática.</p>
+</div>
+
+</html>
