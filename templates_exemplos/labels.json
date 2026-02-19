@@ -1,0 +1,34 @@
+[
+  { "name": "RF", "color": "1b76d1", "description": "Requisito Funcional" },
+  { "name": "RNF", "color": "118d57", "description": "Requisito Não Funcional" },
+  { "name": "Regra-de-Negócio", "color": "c7a008", "description": "Regra de negócio do sistema" },
+  { "name": "Caso-de-Uso", "color": "7e57c2", "description": "Itens relacionados a casos de uso" },
+
+  { "name": "Documentação", "color": "6e7781", "description": "Documentos, markdown, wiki" },
+  { "name": "ADR", "color": "37444c", "description": "Architecture Decision Record" },
+  { "name": "Wiki", "color": "57606a", "description": "Documentação no GitHub Wiki" },
+
+  { "name": "Backend", "color": "d73a4a", "description": "Tarefas relacionadas ao backend" },
+  { "name": "Frontend", "color": "fbca04", "description": "Tarefas relacionadas ao frontend" },
+  { "name": "Mobile", "color": "0e8a16", "description": "Desenvolvimento mobile" },
+  { "name": "API", "color": "0052cc", "description": "Endpoints REST/GraphQL" },
+  { "name": "Banco-de-Dados", "color": "5319e7", "description": "Modelagem e scripts SQL" },
+
+  { "name": "Prioridade-Alta", "color": "b60205", "description": "Item crítico" },
+  { "name": "Prioridade-Média", "color": "d93f0b", "description": "Item de importância média" },
+  { "name": "Prioridade-Baixa", "color": "0e8a16", "description": "Tarefas opcionais ou de longo prazo" },
+
+  { "name": "Bug", "color": "d73a4a", "description": "Comportamento inesperado do sistema" },
+  { "name": "Melhoria", "color": "1d76db", "description": "Proposta de melhoria" },
+  { "name": "Refatoração", "color": "c5def5", "description": "Melhorias internas sem alterar comportamento" },
+
+  { "name": "Em-Análise", "color": "c2e0c6", "description": "Aguardando avaliação" },
+  { "name": "Em-Progresso", "color": "bfdadc", "description": "Tarefa em andamento" },
+  { "name": "Concluído", "color": "0e8a16", "description": "Tarefa concluída" },
+  { "name": "Bloqueado", "color": "b60205", "description": "Impeditivo ou dependência externa" },
+  { "name": "Aguardando-Cliente", "color": "f9d0c4", "description": "Dependência do cliente/usuário" },
+
+  { "name": "Dúvida", "color": "cccccc", "description": "Perguntas e solicitações de esclarecimento" },
+  { "name": "Ajuda", "color": "84f7e6", "description": "Colaboração ou suporte" },
+  { "name": "Discussão", "color": "0366d6", "description": "Pauta de debate da equipe" }
+]
