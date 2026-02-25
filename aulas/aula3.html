@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aula 03 – Requisitos, Regras de Negócio, Issues, Labels, Milestones e PR</title>
-  <meta name="description" content="Aula 03: Levantamento de requisitos (RF/RNF), regras de negócio e integração com GitHub: issues, labels, milestones e pull requests." />
+  <title>Aula 03 – Requisitos (RF), RNF e Regras de Negócio (RN)</title>
+  <meta name="description" content="Aula 03: Engenharia de Requisitos — RF, RNF e Regras de Negócio, com definições, exemplos, estruturas e exercícios." />
   <meta name="author" content="Prof. Max Streicher Vallim" />
+
   <style>
     :root{
       --fg:#111827; --bg:#ffffff; --muted:#6b7280; --line:#e5e7eb; --card:#ffffff;
@@ -18,174 +19,236 @@
         --code:#111827; --focus:#60a5fa; --shadow:0 8px 24px rgba(0,0,0,.35);
       }
     }
-    html,body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;line-height:1.6;margin:0}
+
+    html,body{
+      background:var(--bg);color:var(--fg);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,Helvetica,sans-serif;
+      line-height:1.6;margin:0
+    }
+
     main{max-width:var(--maxw);margin:40px auto;padding:0 20px}
+
     h1{font-size:clamp(28px,4vw,38px);margin:0 0 6px;font-weight:700}
     h2{font-size:26px;margin:36px 0 10px}
     h3{font-size:20px;margin:18px 0 8px}
+
     p,li{font-size:18px}
     ul,ol{padding-left:22px}
     .lead{color:var(--muted);margin:0 0 18px}
     .box{border-left:5px solid var(--fg);padding-left:15px;margin:22px 0}
+
+    .section{
+      border:1px solid var(--line);
+      background:var(--card);
+      padding:20px;
+      border-radius:12px;
+      margin:24px 0;
+    }
+
+    .section.alt{
+      background:var(--code);
+    }
+
     code{background:var(--code);padding:2px 6px;border-radius:6px}
     pre{background:var(--code);padding:12px;border-radius:8px;overflow:auto}
-    a{color:inherit}
-    .btn-back{display:inline-block;margin:0 0 16px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);text-decoration:none}
-    .btn-back:hover{box-shadow:var(--shadow)}
-    .btn-back:focus,.btn-back:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-    hr{border:0;border-top:1px solid var(--line);margin:28px 0}
-    .footer{margin-top:40px;padding-top:24px;text-align:center;font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-    .card{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:14px}
+
     .tip{font-size:14px;color:var(--muted)}
-    .check{list-style:"✅ ";}
-    .warn{list-style:"⚠️ ";}
+    .check{list-style:"✅ "; }
+    .warn{list-style:"⚠️ "; }
+
+    hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+
+    .footer{
+      margin-top:40px;padding-top:24px;text-align:center;
+      font-size:14px;color:var(--muted);border-top:1px solid var(--line)
+    }
   </style>
 </head>
+
 <body>
   <main>
-    <a class="btn-back" href="../index.html">← Voltar</a>
+
     <h1>Engenharia de Software</h1>
-    <p class="lead">Professor: Max Streicher Vallim • UNIFEOB • 2026.1</p>
+    <p class="lead">Aula 03 — Requisitos Funcionais (RF), Requisitos Não Funcionais (RNF) e Regras de Negócio (RN)</p>
 
     <div class="box">
-      <h2>Aula 03 — Requisitos (RF/RNF), Regras de Negócio e GitHub (Issues, Labels, Milestones, PR)</h2>
+      <h2>Objetivos da aula</h2>
       <ul>
-        <li>Escrever requisitos <strong>funcionais</strong>, <strong>não funcionais</strong> e <strong>regras de negócio</strong> com exemplos claros.</li>
-        <li>Transformar requisitos em <strong>Issues</strong> e organizar com <strong>Labels</strong> e <strong>Milestones</strong>.</li>
-        <li>Abrir <strong>Pull Requests</strong> com boas descrições e fechar Issues automaticamente (<code>Closes #</code>).</li>
+        <li>Compreender a diferença entre RF, RNF e RN.</li>
+        <li>Escrever requisitos claros, objetivos e verificáveis.</li>
+        <li>Usar a estrutura mínima recomendada para cada tipo de requisito.</li>
       </ul>
     </div>
 
-    <h2>1) Conceitos essenciais</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Requisito Funcional (RF)</h3>
-        <p>O que o sistema <em>deve fazer</em>.</p>
-        <pre><code>RF01 — Login do usuário
+    <!-- ========================= -->
+    <!-- 1) CONCEITOS ESSENCIAIS  -->
+    <!-- ========================= -->
+
+    <h2>1) Conceitos Essenciais</h2>
+
+    <div class="section">
+      <h3>Requisito Funcional (RF)</h3>
+      <p>Define <em>o que o sistema deve fazer</em> — funcionalidades, ações e comportamentos observáveis.</p>
+      <pre><code>RF01 — Login do usuário
 O sistema deve permitir login com e-mail e senha.</code></pre>
-        <p class="tip">Anti-exemplo: "Tela bonita" (isso é qualidade/UX, não funcionalidade).</p>
-      </div>
-      <div class="card">
-        <h3>Requisito Não Funcional (RNF)</h3>
-        <p>Como o sistema <em>deve se comportar</em>.</p>
-        <pre><code>RNF02 — Desempenho
-A autenticação deve responder em até 2s em 95% dos casos.</code></pre>
-        <p class="tip">Anti-exemplo: "Ter botão azul" (isso é decisão de UI, não RNF).</p>
-      </div>
-      <div class="card">
-        <h3>Regra de Negócio (RN)</h3>
-        <p>Condições/obrigações do domínio.</p>
-        <pre><code>RN07 — Maioridade
-Para cadastrar, o usuário deve ter 18 anos ou mais.</code></pre>
-        <p class="tip">Anti-exemplo: "Usar PostgreSQL" (isso é decisão técnica).</p>
-      </div>
+      <p class="tip">Um RF sempre descreve um comportamento concreto.</p>
     </div>
 
-    <h2>2) Exemplos</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Exemplo RF (com critérios)</h3>
-        <pre><code>Título: RF03 — Recuperar senha
-Descrição: O sistema deve permitir que o usuário redefina a senha via link enviado por e-mail.
-Critérios de Aceitação:
-- Enviar e-mail com link válido de 30 minutos.
-- Link só pode ser usado uma vez.
-- Registrar data/hora da solicitação.</code></pre>
-      </div>
-      <div class="card">
-        <h3>Exemplo RNF (com verificação)</h3>
-        <pre><code>Título: RNF05 — Segurança de Senhas
-Descrição: Senhas devem ser armazenadas com hash bcrypt e salt.
-Como validar:
-- Verificar algoritmo no código/README.
-- Checar política de complexidade (mín. 8 chars, maiúscula, número).</code></pre>
-      </div>
-      <div class="card">
-        <h3>Exemplo Regra de Negócio</h3>
-        <pre><code>Título: RN12 — Limite de tentativas
-Descrição: Após 5 tentativas inválidas, bloquear login por 15 minutos.
-Observações:
-- Reset do contador após sucesso.
-- Logar IP e horário.</code></pre>
-      </div>
+    <div class="section alt">
+      <h3>Requisito Não Funcional (RNF)</h3>
+      <p>Define <em>como o sistema deve se comportar</em> — desempenho, segurança, disponibilidade, qualidade.</p>
+      <pre><code>RNF01 — Performance de login
+O sistema deve responder à tentativa de login em até 2 segundos.</code></pre>
+      <p class="tip">Um RNF SEMPRE precisa de métrica.</p>
     </div>
 
-    <h2>3) GitHub — fluxo</h2>
-    <ol>
-      <li>Criar <strong>labels</strong> mínimas: <code>RF</code>, <code>RNF</code>, <code>Regra-de-Negócio</code>, <code>Prioridade-Alta</code>, <code>Backend</code>, <code>Documentação</code>.</li>
-      <li>Criar <strong>milestone</strong>: <code>Requisitos</code>.</li>
-      <li>Para cada RF/RNF/RN, criar uma <strong>Issue</strong> com descrição e critérios.</li>
-      <li>Atribuir <strong>labels</strong> e vincular ao <strong>milestone Requisitos</strong>.</li>
-      <li>Abrir uma <strong>branch</strong> (ex.: <code>doc/requisitos-aula03</code>), editar os arquivos em <code>/docs</code> e abrir um <strong>PR</strong>.</li>
-      <li>No PR, referenciar Issues resolvidas com <code>Closes #N</code> (fecha automaticamente ao dar merge).</li>
-    </ol>
-
-    <h3>Modelo de Issue (copiar/colar)</h3>
-    <pre><code>## Tipo
-RF | RNF | Regra de Negócio
-
-## Descrição
-(Descreva claramente o requisito ou regra.)
-
-## Critérios de Aceitação / Verificação
-- [ ] Critério 1
-- [ ] Critério 2
-- [ ] Critério 3
-
-## Relacionamentos
-- Relates to: #ID (se houver)
-
-## Anexos / Evidências
-(prints, links, etc.)</code></pre>
-
-    <h3>Modelo de Pull Request</h3>
-    <pre><code># Descrição
-Breve resumo do que foi feito.
-
-# Issues Relacionadas
-Closes #ID (se este PR concluir totalmente a issue)
-Relates to #ID (se apenas relacionar)
-
-# Checklist
-- [ ] Atualizei /docs/requisitos.md
-- [ ] Criei as Issues com labels e milestone
-- [ ] Testei os critérios de aceitação (quando aplicável)</code></pre>
-
-    <hr />
-
-    <h2>4) Atividade</h2>
-    <p><strong>Objetivo:</strong> produzir um pacote mínimo de documentação + organização no GitHub para encerrar o milestone <code>Requisitos</code>.</p>
-
-    <div class="box">
-      <h3>Roteiro cronometrado</h3>
-      <ol>
-        <li>Levantamento em dupla/individual: listar <em>ao menos</em> 4 RF, 2 RNF e 2 Regras de Negócio.</li>
-        <li>Formalização: escrever no <code>/docs/requisitos.md</code> (ou equivalente) com critérios de aceitação/verificação.</li>
-        <li>GitHub: criar Issues para cada item, aplicar labels e vincular ao milestone <code>Requisitos</code>.</li>
-        <li>PR: abrir um PR a partir da branch <code>doc/requisitos-aula03</code> referenciando pelo menos 2 Issues com <code>Closes #</code></li>
-      </ol>
+    <div class="section">
+      <h3>Regra de Negócio (RN)</h3>
+      <p>Regras, leis, políticas e restrições que pertencem ao domínio e influenciam a lógica do sistema.</p>
+      <pre><code>RN01 — Bloqueio de login
+Após 5 tentativas inválidas, bloquear por 15 minutos.</code></pre>
+      <p class="tip">Uma RN deve ser determinística (verdadeira ou falsa).</p>
     </div>
 
-    <h3>Entrega esperada</h3>
-    <ul class="check">
-      <li>/docs/requisitos.md atualizado com <strong>≥ 4 RF</strong>, <strong>≥ 2 RNF</strong>, <strong>≥ 2 RN</strong>.</li>
-      <li>Issues criadas para cada item, com labels e milestone <code>Requisitos</code>.</li>
-      <li>1 PR aberto equipe com <code>Closes #</code> para pelo menos 2 Issues.</li>
-    </ul>
+    <!-- ========================= -->
+    <!-- 2) ESTRUTURAS RECOMENDADAS -->
+    <!-- ========================= -->
 
-    
-    <hr />
+    <h2>2) Estruturas recomendadas</h2>
 
-    <h2>5) Dicas e armadilhas comuns</h2>
-    <ul class="warn">
-      <li>Não confundir <em>requisito</em> com <em>tarefa técnica</em> (ex.: "criar tabela").</li>
-      <li>Evite RF vagos (ex.: "gerenciar usuários"). Prefira ações específicas.</li>
-      <li>RNF devem ser <em>mensuráveis</em> (tempo, taxa de erro, compatibilidade).</li>
-      <li>Use <code>Closes #</code> apenas quando o PR <strong>concluir totalmente</strong> a Issue.</li>
-    </ul>
+    <div class="section">
+      <h3>RF — Estrutura mínima</h3>
+      <pre><code>RFXX — &lt;título&gt;
+Descrição objetiva do que o sistema deve fazer.</code></pre>
+    </div>
 
-    <p class="footer">Aula 03 — Requisitos, RNF, Regras de Negócio e GitHub • UNIFEOB • 2026.1</p>
+    <div class="section alt">
+      <h3>RNF — Estrutura mínima</h3>
+      <pre><code>RNFXX — &lt;título&gt;
+Descrição da qualidade esperada.
+Métrica/Validação: como medir.</code></pre>
+    </div>
+
+    <div class="section">
+      <h3>RN — Estrutura mínima</h3>
+      <pre><code>RNXX — &lt;título&gt;
+Regra clara e determinística.
+Exemplos (opcional).</code></pre>
+    </div>
+
+    <!-- ========================= -->
+    <!-- 3) EXEMPLOS               -->
+    <!-- ========================= -->
+
+    <h2>3) Exemplos</h2>
+
+    <div class="section">
+      <h3>Requisitos Funcionais (RF)</h3>
+      <pre><code>RF01 — Login
+Permitir autenticação via e-mail e senha.
+
+RF02 — Recuperação de senha
+Enviar link de redefinição por e-mail.
+
+RF03 — Atualização de perfil
+Permitir alteração de nome, foto e dados pessoais.</code></pre>
+    </div>
+
+    <div class="section alt">
+      <h3>Requisitos Não Funcionais (RNF)</h3>
+      <pre><code>RNF01 — Tempo de resposta
+O login deve responder em até 2 segundos.
+
+RNF02 — Disponibilidade
+O sistema deve estar disponível 99,5% do tempo mensal.
+
+RNF03 — Segurança
+Senhas devem ser armazenadas com hashing seguro.</code></pre>
+    </div>
+
+    <div class="section">
+      <h3>Regras de Negócio (RN)</h3>
+      <pre><code>RN01 — Bloqueio após tentativas
+Após 5 erros, bloquear o login por 15 minutos.
+
+RN02 — Maioridade
+Para cadastro, o usuário deve ter 18 anos ou mais.
+
+RN03 — Cancelamento
+Pedidos só podem ser cancelados antes do envio.</code></pre>
+    </div>
+
+    <!-- ========================= -->
+    <!-- 4) COMPARATIVOS           -->
+    <!-- ========================= -->
+
+    <h2>4) Comparativos (RF vs RNF vs RN)</h2>
+
+    <div class="section alt">
+      <table style="width:100%;border-collapse:collapse;border:1px solid var(--line)">
+        <thead>
+          <tr>
+            <th style="text-align:left;border-bottom:1px solid var(--line);padding:8px">Tipo</th>
+            <th style="text-align:left;border-bottom:1px solid var(--line);padding:8px">Exemplo</th>
+            <th style="text-align:left;border-bottom:1px solid var(--line);padding:8px">Correto?</th>
+            <th style="text-align:left;border-bottom:1px solid var(--line);padding:8px">Motivo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:8px">RF</td><td style="padding:8px">Enviar e-mail de confirmação</td><td style="padding:8px">✔</td><td style="padding:8px">Funcionalidade</td></tr>
+          <tr><td style="padding:8px">RNF</td><td style="padding:8px">Carregar em até 2s</td><td style="padding:8px">✔</td><td style="padding:8px">Possui métrica</td></tr>
+          <tr><td style="padding:8px">RN</td><td style="padding:8px">Frete grátis acima de R$ 500</td><td style="padding:8px">✔</td><td style="padding:8px">Política do negócio</td></tr>
+          <tr><td style="padding:8px">RF</td><td style="padding:8px">Tela bonita</td><td style="padding:8px">✘</td><td style="padding:8px">Vago</td></tr>
+          <tr><td style="padding:8px">RNF</td><td style="padding:8px">Sistema rápido</td><td style="padding:8px">✘</td><td style="padding:8px">Sem métrica</td></tr>
+          <tr><td style="padding:8px">RN</td><td style="padding:8px">Usar PostgreSQL</td><td style="padding:8px">✘</td><td style="padding:8px">Decisão técnica</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ========================= -->
+    <!-- 5) EXERCÍCIO              -->
+    <!-- ========================= -->
+
+    <h2>5) Exercício</h2>
+
+    <div class="section">
+      <p><strong>Escreva um conjunto mínimo de requisitos para um sistema à sua escolha (e-commerce, financeiro, RH, saúde etc.):</strong></p>
+      <ul>
+        <li>3 Requisitos Funcionais (RF)</li>
+        <li>2 Requisitos Não Funcionais (RNF)</li>
+        <li>2 Regras de Negócio (RN)</li>
+      </ul>
+      <h3>Modelos</h3>
+      <pre><code>RF01 — &lt;título&gt;
+Descrição...
+
+RNF01 — &lt;título&gt;
+Descrição...
+Métrica/Validação...
+
+RN01 — &lt;título&gt;
+Regra...
+Exemplos...</code></pre>
+    </div>
+
+    <!-- ========================= -->
+    <!-- 6) DICAS                  -->
+    <!-- ========================= -->
+
+    <h2>6) Dicas finais</h2>
+
+    <div class="section alt">
+      <ul class="warn">
+        <li>Use verbos claros: permitir, enviar, registrar, calcular, validar.</li>
+        <li>Evite termos vagos: “rápido”, “seguro”, “bonito”.</li>
+        <li>RNF SEMPRE precisa ser mensurável.</li>
+        <li>RN deve ser determinística (não ambígua).</li>
+        <li>Padronize nomenclatura: RF01, RNF01, RN01…</li>
+      </ul>
+    </div>
+
+    <p class="footer">Aula 03 — Requisitos (RF), RNF e Regras de Negócio (RN) • UNIFEOB • 2026.1</p>
+
   </main>
 </body>
 </html>
