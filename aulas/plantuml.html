@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cheatsheet — PlantUML (Casos de Uso)</title>
+
+<style>
+:root{
+  --fg:#111827; 
+  --bg:#ffffff; 
+  --muted:#6b7280; 
+  --line:#e5e7eb; 
+  --card:#ffffff;
+  --code:#f4f4f4; 
+  --maxw:900px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --fg:#e5e7eb; 
+    --bg:#0b0f14; 
+    --muted:#9ca3af; 
+    --line:#243042; 
+    --card:#0f172a;
+    --code:#111827;
+  }
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+}
+
+main {
+  max-width: var(--maxw);
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  margin-top: 0;
+}
+
+h1 { font-size: 38px; margin-bottom: 6px; }
+h2 { font-size: 26px; margin-top: 40px; }
+h3 { font-size: 20px; }
+
+p, li {
+  font-size: 18px;
+}
+
+ul, ol { padding-left: 22px; }
+
+.box{
+  border-left: 5px solid var(--fg);
+  padding-left: 15px;
+  margin: 30px 0;
+}
+
+.section {
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 30px 0;
+}
+
+.section.alt {
+  background: var(--code);
+}
+
+code {
+  background: var(--code);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+pre {
+  background: var(--code);
+  padding: 12px;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+.footer {
+  margin-top: 50px;
+  padding-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<h1>Cheatsheet — PlantUML</h1>
+<p class="lead">Principais comandos para Diagramas de Caso de Uso</p>
+
+<div class="box">
+  <h2>Propósito deste Cheatsheet</h2>
+  <p>Listar de forma clara e rápida os comandos mais usados em PlantUML para criar diagramas de caso de uso, exatamente como aplicamos nas aulas.</p>
+</div>
+
+<h2>1) Estrutura básica do arquivo</h2>
+<div class="section">
+<pre><code>@startuml
+... elementos ...
+@enduml
+</code></pre>
+</div>
+
+<h2>2) Ator</h2>
+<div class="section alt">
+<pre><code>actor Usuario
+actor "Cliente Premium" as CP
+actor "Sistema Externo" as Ext
+</code></pre>
+</div>
+
+<h2>3) Caso de Uso</h2>
+<div class="section">
+<pre><code>(Login)
+(Realizar Pedido)
+(Consultar Histórico) as Hist
+("Cadastrar\nNovo Usuário") as CadNovo
+</code></pre>
+</div>
+
+<h2>4) Relacionamentos principais</h2>
+
+<div class="section alt">
+<h3>Associação (ator → caso de uso)</h3>
+<pre><code>Usuario --> (Login)
+Cliente --> (Realizar Pedido)
+</code></pre>
+
+<h3>Include</h3>
+<pre><code>(Realizar Pedido) --> (Calcular Frete) : <<include>>
+</code></pre>
+
+<h3>Extend</h3>
+<pre><code>(Realizar Pedido) --> (Aplicar Cupom) : <<extend>>
+</code></pre>
+
+<h3>Generalização (herança de atores)</h3>
+<pre><code>actor Cliente
+actor "Cliente Premium" as CP
+
+CP --|> Cliente
+</code></pre>
+</div>
+
+<h2>5) Pacotes e organização visual</h2>
+<div class="section">
+<pre><code>package "Pagamentos" {
+  (Efetuar Pagamento)
+  (Validar Cartão)
+}
+
+rectangle Sistema {
+  (Login)
+  (Cadastro)
+}
+</code></pre>
+</div>
+
+<h2>6) Direção do layout</h2>
+<div class="section alt">
+<pre><code>left to right direction
+top to bottom direction
+</code></pre>
+</div>
+
+<h2>7) Notas</h2>
+<div class="section">
+<pre><code>note right of (Login)
+  Fluxo principal: usuário informa e-mail e senha.
+end note
+
+(Login) .. note right : Fluxo alternativo A1
+</code></pre>
+</div>
+
+<h2>8) Estereótipos (ótimo para MVP, categorias etc.)</h2>
+<div class="section alt">
+<pre><code>(Login) <<MVP>>
+(Consultar Histórico) <<Opcional>>
+
+skinparam usecaseBackgroundColor<<MVP>> #C6F6D5
+skinparam usecaseBorderColor<<MVP>> #2F855A
+</code></pre>
+</div>
+
+<h2>9) Exemplo completo e funcional</h2>
+<div class="section">
+<pre><code>@startuml
+left to right direction
+actor Cliente
+actor Admin
+
+rectangle Sistema {
+  (Login)
+  (Cadastro)
+  (Realizar Pedido)
+  (Consultar Histórico)
+}
+
+Cliente --> (Login)
+Cliente --> (Realizar Pedido)
+Cliente --> (Consultar Histórico)
+Admin   --> (Cadastro)
+
+(Realizar Pedido) --> (Calcular Frete) : <<include>>
+(Realizar Pedido) --> (Aplicar Cupom)  : <<extend>>
+@enduml
+</code></pre>
+</div>
+
+<p class="footer">Cheatsheet PlantUML – Casos de Uso • 2026</p>
+
+</main>
+</body>
+</html>

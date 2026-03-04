@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aula 04 – Casos de Uso</title>
+
+<style>
+:root{
+  --fg:#111827; 
+  --bg:#ffffff; 
+  --muted:#6b7280; 
+  --line:#e5e7eb; 
+  --card:#ffffff;
+  --code:#f4f4f4; 
+  --maxw:900px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --fg:#e5e7eb; 
+    --bg:#0b0f14; 
+    --muted:#9ca3af; 
+    --line:#243042; 
+    --card:#0f172a;
+    --code:#111827;
+  }
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+}
+
+main {
+  max-width: var(--maxw);
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  margin-top: 0;
+}
+
+h1 { font-size: 38px; margin-bottom: 6px; }
+h2 { font-size: 26px; margin-top: 40px; }
+h3 { font-size: 20px; }
+
+p, li {
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left: 22px;
+}
+
+.lead {
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+
+.box{
+  border-left: 5px solid var(--fg);
+  padding-left: 15px;
+  margin: 30px 0;
+}
+
+.section {
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 30px 0;
+}
+
+.section.alt {
+  background: var(--code);
+}
+
+code {
+  background: var(--code);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+pre {
+  background: var(--code);
+  padding:);
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<h1>Engenharia de Software</h1>
+<p class="lead">Aula 04 — Casos de Uso e Modelagem de Interações</p>
+
+<div class="box">
+  <h2>Objetivos da aula</h2>
+  <ul>
+    <li>Compreender o que é um Caso de Uso.</li>
+    <li>Aprender a estruturar um Caso de Uso completo.</li>
+    <li>Diferenciar Caso de Uso, RF, RNF e User Stories.</li>
+    <li>Criar diagramas de Casos de Uso com PlantUML.</li>
+    <li>Entender como Casos de Uso se relacionam com User Stories e MVP.</li>
+  </ul>
+</div>
+
+<h2>1) O que é um Caso de Uso?</h2>
+
+<div class="section">
+  <p>
+    Um <strong>Caso de Uso</strong> descreve como um ator (usuário ou sistema externo)
+    interage com o sistema para atingir um objetivo específico.  
+    Ele narra um <em>fluxo completo</em>, do início ao fim.
+  </p>
+</div>
+
+<h2>2) Estrutura mínima recomendada</h2>
+
+<div class="section">
+<pre><code>Caso de Uso: <título>
+Ator: <ator principal>
+Objetivo: <o que o ator deseja alcançar>
+
+Pré-condições:
+- O que deve ser verdade antes da ação
+
+Pós-condições:
+- Resultado após o fluxo
+
+Fluxo Principal:
+1)
+2)
+3)
+
+Fluxos Alternativos:
+A1)
+A2)
+
+Regras de Negócio:
+- RN01 ...
+
+Requisitos Relacionados:
+- RF01 ...
+- RNF01 ...
+</code></pre>
+</div>
+
+<h2>3) Exemplo completo — Caso de Uso: Realizar Login</h2>
+
+<div class="section alt">
+<pre><code>Caso de Uso: Realizar Login
+Ator: Usuário
+Objetivo: Acessar o sistema mediante autenticação válida
+
+Pré-condições:
+- Possuir conta ativa
+
+Pós-condições:
+- Sessão iniciada
+
+Fluxo Principal:
+1) Usuário informa e-mail e senha.
+2) Sistema valida credenciais.
+3) Sistema redireciona para a tela inicial.
+
+Fluxos Alternativos:
+A1 - Credenciais inválidas:
+  1) Sistema rejeita credenciais.
+  2) Exibe mensagem de falha.
+  3) Volta ao passo 1 do fluxo principal.
+
+A2 - Usuário bloqueado:
+  1) Sistema detecta tentativas excedidas.
+  2) Informa bloqueio temporário.
+
+Regras de Negócio:
+- RN01: Bloqueio após 5 tentativas inválidas.
+
+Requisitos Relacionados:
+- RF01 Login
+- RNF01 Resposta em até 2s
+</code></pre>
+</div>
+
+<h2>4) Diagrama de Caso de Uso — PlantUML</h2>
+
+<div class="section">
+<pre><code>@startuml
+actor Usuario
+rectangle Sistema {
+  Usuario --> (Login)
+  Usuario --> (Recuperar Senha)
+  Usuario --> (Atualizar Perfil)
+}
+@enduml
+</code></pre>
+</div>
+
+<h2>5) Como um Caso de Uso vira User Stories e MVP</h2>
+
+<div class="section">
+
+<h3>Exemplo: Caso de Uso “Realizar Pedido”</h3>
+
+<p>Este caso de uso é perfeito para demonstrar como funcionalidade → stories → MVP se conectam.</p>
+
+<h3>User Stories Essenciais (MVP)</h3>
+
+<pre><code>US01 — Selecionar produto
+Como cliente, quero visualizar os produtos para escolher o que comprar.
+
+US02 — Adicionar ao carrinho
+Como cliente, quero adicionar itens ao carrinho.
+
+US03 — Fechar pedido
+Como cliente, quero revisar meu carrinho antes de confirmar.
+
+US04 — Escolher forma de pagamento
+Como cliente, quero selecionar uma forma de pagamento.
+
+US05 — Confirmar pedido
+Como cliente, quero confirmar o pedido e receber a confirmação.
+</code></pre>
+
+<h3>User Stories Complementares (Pós-MVP)</h3>
+<pre><code>US06 — Calcular frete  
+US07 — Aplicar cupom de desconto  
+US08 — Acessar histórico de pedidos  
+US09 — Rastrear pedido  
+US10 — Avaliar produtos  
+</code></pre>
+
+<h3>MVP na prática</h3>
+<p>O MVP contém apenas as stories essenciais que executam <strong>todo o fluxo principal</strong> do caso de uso:</p>
+
+<pre><code>MVP:
+- US01 Selecionar produto
+- US02 Adicionar ao carrinho
+- US03 Fechar pedido
+- US04 Escolher pagamento
+- US05 Confirmar pedido
+</code></pre>
+
+<h3>PlantUML – Relação Caso de Uso → Stories → MVP</h3>
+
+<pre><code>@startuml
+title Caso de Uso → Stories → MVP
+
+rectangle "Caso de Uso: Realizar Pedido" {
+}
+
+rectangle "User Stories" {
+  -- MVP --
+  (US01 Selecionar produto)
+  (US02 Adicionar ao carrinho)
+  (US03 Fechar pedido)
+  (US04 Escolher pagamento)
+  (US05 Confirmar pedido)
+
+  -- Pós-MVP --
+  (US06 Calcular frete)
+  (US07 Cupom de desconto)
+  (US08 Histórico)
+  (US09 Rastreio)
+  (US10 Avaliação)
+}
+
+rectangle "MVP" {
+  (US01)
+  (US02)
+  (US03)
+  (US04)
+  (US05)
+}
+
+@enduml
+</code></pre>
+
+</div>
+
+<h2>6) Exercício da Aula 04</h2>
+
+<div class="section alt">
+  <ul>
+    <li>Crie 3 Casos de Uso completos.</li>
+    <li>Crie 1 diagrama contendo todos os casos.</li>
+    <li>Relacione ao menos 1 Caso de Uso com User Stories do MVP.</li>
+    <li>Entregar via branch <code>feature/casos-uso</code> + Pull Request.</li>
+  </ul>
+</div>
+
+<p class="footer">Aula 04 — Casos de Uso • UNIFEOB • 2026.1</p>
+
+</main>
+</body>
+</html>
