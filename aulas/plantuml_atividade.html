@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cheatsheet — PlantUML (Diagramas de Atividade)</title>
+
+<style>
+:root{
+  --fg:#111827;
+  --bg:#ffffff;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --card:#ffffff;
+  --code:#f4f4f4;
+  --maxw:900px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --fg:#e5e7eb;
+    --bg:#0b0f14;
+    --muted:#9ca3af;
+    --line:#243042;
+    --card:#0f172a;
+    --code:#111827;
+  }
+}
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+}
+main {
+  max-width: var(--maxw);
+  margin: 40px auto;
+  padding: 0 20px;
+}
+h1, h2, h3 {
+  font-weight: 700;
+  margin-top: 0;
+}
+h1 { font-size: 38px; margin-bottom: 6px; }
+h2 { font-size: 26px; margin-top: 40px; }
+h3 { font-size: 20px; }
+p, li {
+  font-size: 18px;
+}
+ul, ol { padding-left: 22px; }
+.box{
+  border-left: 5px solid var(--fg);
+  padding-left: 15px;
+  margin: 30px 0;
+}
+.section {
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 30px 0;
+}
+.section.alt {
+  background: var(--code);
+}
+code {
+  background: var(--code);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+pre {
+  background: var(--code);
+  padding: 12px;
+  border-radius: 8px;
+  overflow: auto;
+
+  /* >>>> AUMENTO DA FONTE <<<< */
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+pre code {
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.footer {
+  margin-top: 50px;
+  padding-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<h1>Cheatsheet — PlantUML</h1>
+<p class="lead">Principais comandos para Diagramas de Atividade</p>
+
+<div class="box">
+  <h2>Propósito deste Cheatsheet</h2>
+  <p>
+    Fornecer um guia rápido com os comandos essenciais do PlantUML para criar Diagramas de Atividade,
+    seguindo o padrão utilizado em sala de aula.
+  </p>
+</div>
+
+<h2>1) Estrutura básica</h2>
+<div class="section">
+<pre><code>@startuml
+... elementos ...
+@enduml
+</code></pre>
+</div>
+
+<h2>2) Ação (Activity)</h2>
+<div class="section alt">
+<pre><code>:Descrição da ação;
+:Validar credenciais;
+:Atualizar estoque;
+</code></pre>
+</div>
+
+<h2>3) Fluxo sequencial</h2>
+<div class="section">
+<pre><code>@startuml
+start
+:Ação 1;
+:Ação 2;
+:Ação 3;
+stop
+@enduml
+</code></pre>
+</div>
+
+<h2>4) Decisão (if/else)</h2>
+<div class="section alt">
+<pre><code>if (Condição?) then (sim)
+  :Ação se verdadeiro;
+else (não)
+  :Ação se falso;
+endif
+</code></pre>
+</div>
+
+<h2>5) Fork/Join (Ações paralelas)</h2>
+<div class="section">
+<pre><code>fork
+  :Ação paralela 1;
+fork again
+  :Ação paralela 2;
+fork again
+  :Ação paralela 3;
+end fork
+</code></pre>
+</div>
+
+<h2>6) Swimlanes (faixas de responsabilidade)</h2>
+<div class="section alt">
+<pre><code>partition Usuario {
+  :Informa dados;
+}
+
+partition Sistema {
+  :Valida credenciais;
+}
+</code></pre>
+</div>
+
+
+<h2>7) Swimlanes com Pipe (|)</h2>
+<div class="section">
+<pre><code>@startuml
+|Usuário|
+start
+:Informa credenciais;
+
+|Sistema|
+:Valida credenciais;
+
+|Usuário|
+if (Válidas?) then (sim)
+  :Acessa dashboard;
+else (não)
+  :Exibe erro;
+endif
+
+stop
+@enduml
+</code></pre>
+</div>
+
+<h2>8) Exemplo completo e funcional</h2>
+<div class="section">
+<pre><code>@startuml
+top to bottom direction
+
+start
+:Iniciar pedido;
+
+if (Pagamento aprovado?) then (sim)
+  fork
+    :Enviar confirmação;
+  fork again
+    :Atualizar estoque;
+  end fork
+else (não)
+  :Exibir erro;
+endif
+
+:Finalizar;
+stop
+@enduml
+</code></pre>
+</div>
+
+<p class="footer">Cheatsheet PlantUML – Diagramas de Atividade • 2026</p>
+
+</main>
+</body>
+</html>

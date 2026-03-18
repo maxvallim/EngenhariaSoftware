@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aula 05 — Diagramas de Atividade (UML)</title>
+
+<style>
+:root{
+  --fg:#111827;
+  --bg:#ffffff;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --card:#ffffff;
+  --code:#f4f4f4;
+  --maxw:900px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --fg:#e5e7eb;
+    --bg:#0b0f14;
+    --muted:#9ca3af;
+    --line:#243042;
+    --card:#0f172a;
+    --code:#111827;
+  }
+}
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+}
+main {
+  max-width: var(--maxw);
+  margin: 40px auto;
+  padding: 0 20px;
+}
+h1, h2, h3 {
+  font-weight: 700;
+  margin-top: 0;
+}
+h1 { font-size: 38px; margin-bottom: 6px; }
+h2 { font-size: 26px; margin-top: 40px; }
+h3 { font-size: 20px; }
+p, li {
+  font-size: 18px;
+}
+ul, ol {
+  padding-left: 22px;
+}
+.lead {
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+.box{
+  border-left: 5px solid var(--fg);
+  padding-left: 15px;
+  margin: 30px 0;
+}
+.section {
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 30px 0;
+}
+.section.alt {
+  background: var(--code);
+}
+code {
+  background: var(--code);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+pre {
+  background: var(--code);
+  padding: 12px;
+  border-radius: 8px;
+  overflow: auto;
+}
+.footer {
+  margin-top: 40px;
+  padding-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<h1>Engenharia de Software</h1>
+<p class="lead">Aula 05 — Diagramas de Atividade (UML)</p>
+
+<div class="box">
+  <h2>Objetivos da aula</h2>
+  <ul>
+    <li>Entender para que servem Diagramas de Atividade.</li>
+    <li>Relacionar Caso de Uso → Fluxo Narrativo → Atividade.</li>
+    <li>Aprender os principais elementos: início, ações, decisões, forks, joins e swimlanes.</li>
+    <li>Criar Diagramas de Atividade utilizando PlantUML.</li>
+    <li>Gerar arquivos .puml organizados no repositório GitHub.</li>
+  </ul>
+</div>
+
+<h2>1) O que é um Diagrama de Atividade?</h2>
+<div class="section">
+  <p>
+    O <strong>Diagrama de Atividade</strong> representa o fluxo de ações, decisões e caminhos alternativos dentro de um processo.
+    Ele é o diagrama mais adequado para <strong>visualizar a lógica do Caso de Uso</strong>.
+  </p>
+  <p>
+    É excelente para:
+  </p>
+  <ul>
+    <li>Transformar fluxos narrativos em algo visual;</li>
+    <li>Identificar gargalos e complexidades;</li>
+    <li>Preparar diagramas de sequência;</li>
+    <li>Modelagem de negócios, UX e processos.</li>
+  </ul>
+</div>
+
+<h2>2) Principais elementos</h2>
+<div class="section">
+  <ul>
+    <li><strong>Nó inicial</strong></li>
+    <li><strong>Ação</strong></li>
+    <li><strong>Decisão (if/else)</strong></li>
+    <li><strong>Fork / Join</strong></li>
+    <li><strong>Swimlanes (faixas de responsabilidade)</strong></li>
+    <li><strong>Nó final</strong></li>
+  </ul>
+</div>
+
+<h2>3) Exemplo — Fluxo simples (Login)</h2>
+<div class="section alt">
+<pre><code>@startuml
+start
+:Usuário informa e-mail e senha;
+:Sistema valida credenciais;
+
+if (Credenciais válidas?) then (sim)
+  :Redireciona para dashboard;
+else (não)
+  :Exibe mensagem de erro;
+endif
+
+stop
+@enduml
+</code></pre>
+</div>
+
+<h2>4) Exemplos com Swimlanes</h2>
+<div class="section">
+<p><strong>Swimlanes</strong> separam quem executa cada ação. Excelente para mostrar responsabilidades.</p>
+</div>
+
+<h3>4.1) Login com Swimlanes</h3>
+<div class="section alt">
+<pre><code>@startuml
+|Usuário|
+start
+:Informa e-mail e senha;
+
+|Sistema|
+:Valida credenciais;
+
+if (Válidas?) then (sim)
+  |Sistema|
+  :Cria sessão;
+  |Usuário|
+  :Acessa dashboard;
+else (não)
+  |Sistema|
+  :Exibe erro de login;
+endif
+
+stop
+@enduml
+</code></pre>
+</div>
+
+<h3>4.2) Fluxo de Pedido (Cliente x Sistema x Pagamento)</h3>
+<div class="section">
+<pre><code>@startuml
+|Cliente|
+start
+:Seleciona produtos;
+:Confirma carrinho;
+
+|Sistema|
+:Calcula frete;
+:Envia dados do pagamento;
+
+|Gateway de Pagamento|
+:Processa pagamento;
+
+if (Aprovado?) then (sim)
+  |Sistema|
+  :Gera pedido;
+  |Cliente|
+  :Exibe confirmação;
+else
+  |Cliente|
+  :Exibe falha no pagamento;
+endif
+
+stop
+@enduml
+</code></pre>
+</div>
+
+<h2>5) Ações paralelas (fork/join)</h2>
+<div class="section alt">
+<pre><code>@startuml
+start
+:Iniciar fluxo;
+
+fork
+  :Enviar e-mail ao cliente;
+fork again
+  :Atualizar controle de estoque;
+fork again
+  :Gerar log da operação;
+end fork
+
+:Finalizar processo;
+stop
+@enduml
+</code></pre>
+</div>
+
+
