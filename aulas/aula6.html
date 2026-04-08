@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama de Classes do Domínio</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 26px;
+            line-height: 1.6;
+            margin: 60px;
+            background-color: #ffffff;
+            color: #111111;
+        }
+
+        h1 {
+            font-size: 46px;
+            margin-bottom: 50px;
+            border-bottom: 4px solid #000;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 34px;
+            margin-top: 60px;
+            margin-bottom: 20px;
+            color: #003366;
+        }
+
+        p {
+            margin-bottom: 18px;
+            max-width: 1400px;
+        }
+
+        ul {
+            margin-top: 20px;
+            margin-left: 40px;
+        }
+
+        li {
+            margin-bottom: 14px;
+        }
+
+        .highlight {
+            background-color: #f2f2f2;
+            padding: 20px 30px;
+            border-left: 8px solid #003366;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Diagrama de Classes do Domínio</h1>
+
+    <h2>1. Conceito</h2>
+    <p>
+        O Diagrama de Classes do Domínio é uma representação conceitual dos principais
+        elementos de um negócio e de seus relacionamentos.
+    </p>
+    <p>
+        Ele descreve o domínio do problema de forma independente de qualquer solução
+        tecnológica.
+    </p>
+
+    <div class="highlight">
+        O foco do diagrama de domínio é o <strong>significado do negócio</strong>,
+        e não a implementação do sistema.
+    </div>
+
+    <h2>2. Domínio versus Sistema</h2>
+    <p>
+        O domínio representa a realidade do negócio.
+        O sistema representa uma solução tecnológica que apoia esse domínio.
+    </p>
+    <p>
+        No diagrama de domínio, modelam-se conceitos reais do negócio,
+        e não componentes técnicos.
+    </p>
+
+    <h2>3. Classes de Domínio</h2>
+    <p>
+        Uma classe de domínio representa um conceito relevante para o negócio.
+        Ela possui identidade própria e significado claro.
+    </p>
+    <p>
+        Uma classe só deve existir no diagrama se puder ser reconhecida
+        por especialistas do domínio.
+    </p>
+
+    <h2>4. Atributos</h2>
+    <p>
+        Atributos representam informações essenciais de uma classe de domínio.
+        Eles descrevem características importantes do conceito modelado.
+    </p>
+    <p>
+        Nesse nível, atributos não devem refletir detalhes técnicos
+        ou estruturas de banco de dados.
+    </p>
+
+    <h2>5. Operações</h2>
+    <p>
+        Operações representam comportamentos do negócio.
+        Elas descrevem ações que fazem sentido dentro do domínio.
+    </p>
+    <p>
+        Não devem representar chamadas técnicas ou responsabilidades de infraestrutura.
+    </p>
+
+    <h2>6. Relacionamentos</h2>
+    <p>
+        Relacionamentos indicam como os conceitos do domínio se conectam.
+        O relacionamento mais comum é a associação.
+    </p>
+    <p>
+        Uma associação indica um vínculo estrutural e permanente
+        entre conceitos do negócio.
+    </p>
+
+    <h2>7. Cardinalidade</h2>
+    <p>
+        Cardinalidade define quantas instâncias de uma classe podem se relacionar
+        com instâncias de outra classe.
+    </p>
+    <p>
+        Ela expressa regras do negócio, não decisões técnicas.
+    </p>
+
+    <h2>8. Navegabilidade</h2>
+    <p>
+        Navegabilidade indica quais classes conhecem ou referenciam outras classes.
+    </p>
+    <p>
+        No domínio, ela representa responsabilidades conceituais,
+        e não acessos técnicos.
+    </p>
+
+    <h2>9. Generalização (Herança)</h2>
+    <p>
+        A generalização representa uma relação de especialização.
+        Um conceito herda características de outro dentro do domínio.
+    </p>
+    <p>
+        Seu uso deve refletir a realidade do negócio,
+        e não conveniência de implementação.
+    </p>
+
+    <h2>10. Classes Abstratas</h2>
+    <p>
+        Classes abstratas representam conceitos genéricos
+        que não existem isoladamente.
+    </p>
+    <p>
+        Elas servem para agrupar características conceituais comuns.
+    </p>
+
+    <h2>11. Linguagem Ubíqua</h2>
+    <p>
+        O diagrama de domínio deve usar a linguagem adotada pelo negócio.
+    </p>
+    <p>
+        Os termos do diagrama devem ser os mesmos usados nas conversas,
+        documentos e regras do domínio.
+    </p>
+
+    <h2>12. O que não entra no diagrama de domínio</h2>
+    <ul>
+        <li>Componentes técnicos</li>
+        <li>Classes de infraestrutura</li>
+        <li>Detalhes de banco de dados</li>
+        <li>Frameworks e bibliotecas</li>
+        <li>Conceitos exclusivos de implementação</li>
+    </ul>
+
+    <h2>13. Objetivo do Diagrama de Domínio</h2>
+    <p>
+        Promover entendimento comum entre equipe técnica
+        e especialistas do negócio.
+    </p>
+    <p>
+        Servir como base para decisões futuras de design,
+        implementação e modelagem de dados.
+    </p>
+
+    <div class="highlight">
+        <strong>Regra fundamental:</strong><br>
+        Se o diagrama não puder ser explicado sem falar de tecnologia,
+        ele não representa corretamente o domínio.
+    </div>
+
+</body>
+</html>
