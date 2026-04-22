@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula - Diagrama de Sequência</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code, pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            display: block;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .box {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Aula: Diagrama de Sequência (UML)</h1>
+
+<h2>1. O que é um Diagrama de Sequência?</h2>
+<p>O diagrama de sequência mostra <strong>como os objetos interagem ao longo do tempo</strong>.</p>
+
+<p>Diferente do diagrama de classes (estrutura), aqui você vê:</p>
+<ul>
+    <li>quem conversa com quem</li>
+    <li>em que ordem</li>
+    <li>o que é enviado (mensagens)</li>
+</ul>
+
+<div class="box">
+    Pense como um <strong>roteiro de filme</strong>:<br>
+    “Usuário clica → sistema valida → banco responde → sistema retorna”
+</div>
+
+<h2>2. Elementos principais</h2>
+
+<h3>Ator</h3>
+<p>Quem inicia a interação (ex: Usuário)</p>
+
+<h3>Objetos / Participantes</h3>
+<ul>
+    <li>Sistema</li>
+    <li>Controller</li>
+    <li>Banco de Dados</li>
+</ul>
+
+<h3>Linha de vida</h3>
+<p>Linha vertical que representa o tempo daquele objeto</p>
+
+<h3>Mensagens</h3>
+<ul>
+    <li>Síncrona (espera resposta)</li>
+    <li>Assíncrona (não espera)</li>
+    <li>Retorno (linha tracejada)</li>
+</ul>
+
+<h3>Ativação</h3>
+<p>Mostra quando o objeto está executando algo</p>
+
+<h2>3. Exemplo: Login</h2>
+
+<h3>Cenário</h3>
+<p>Usuário faz login no sistema</p>
+
+<h3>Diagrama em PlantUML</h3>
+<pre>
+@startuml
+actor Usuario
+
+participant "Tela Login" as Tela
+participant "Sistema" as Sistema
+participant "Banco de Dados" as BD
+
+Usuario -> Tela : Digita login/senha
+Tela -> Sistema : enviarCredenciais()
+Sistema -> BD : validarUsuario()
+
+BD --> Sistema : resultado
+
+alt Login válido
+    Sistema --> Tela : sucesso
+    Tela --> Usuario : acesso liberado
+else Login inválido
+    Sistema --> Tela : erro
+    Tela --> Usuario : mensagem de erro
+end
+
+@enduml
+</pre>
+
+<h2>4. Explicação passo a passo</h2>
+<ol>
+    <li>Usuário envia dados</li>
+    <li>Tela repassa ao sistema</li>
+    <li>Sistema consulta banco</li>
+    <li>Banco responde</li>
+    <li>Sistema decide (válido ou não)</li>
+    <li>Retorna ao usuário</li>
+</ol>
+
+<h2>5. Estruturas importantes</h2>
+
+<h3>ALT (if/else)</h3>
+<pre>
+alt condição
+else outra condição
+end
+</pre>
+
+<h3>LOOP</h3>
+<pre>
+loop enquanto condição
+end
+</pre>
+
+<h3>OPT (opcional)</h3>
+<pre>
+opt condição
+end
+</pre>
+
+<h2>6. Quando usar?</h2>
+<ul>
+    <li>Detalhar um caso de uso</li>
+    <li>Entender fluxo entre camadas</li>
+    <li>Explicar integração entre sistemas</li>
+    <li>Modelar APIs</li>
+</ul>
+
+ <h1>Lista de Exercícios – Diagramas de Sequência (UML)</h1>
+
+  <h2>Exercício 1 – Login simples</h2>
+  <p><strong>Cenário:</strong> Um usuário acessa um sistema e realiza login informando usuário e senha.</p>
+  <p><strong>Requisitos:</strong></p>
+  <ul>
+    <li>Usuário envia login e senha</li>
+    <li>Sistema valida as credenciais</li>
+    <li>Sistema retorna sucesso</li>
+  </ul>
+  <p><em>Faça o diagrama apenas para o caso de sucesso.</em></p>
+
+  <h2>Exercício 2 – Login com erro</h2>
+  <p><strong>Cenário:</strong> Login com possibilidade de erro de autenticação.</p>
+  <p><strong>Requisitos:</strong></p>
+  <ul>
+    <li>Usuário informa login e senha</li>
+    <li>Sistema valida os dados</li>
+    <li>Em caso de erro, exibir mensagem</li>
+    <li>Usuário permanece na tela de login</li>
+  </ul>
+  <p><em>Utilize o fragmento <strong>alt</strong>.</em></p>
+
+  <h2>Exercício 3 – Cadastro de usuário</h2>
+  <p><strong>Cenário:</strong> Um usuário realiza seu cadastro no sistema.</p>
+  <p><strong>Requisitos:</strong></p>
+  <ul>
+    <li>Usuário informa os dados</li>
+    <li>Sistema valida as informações</li>
+    <li>Um novo usuário é criado</li>
+    <li>Os dados são armazenados no banco</li>
+  </ul>
+
+  <h2>Exercício 4 – Consulta de produto</h2>
+  <p><strong>Cenário:</strong> Cliente consulta um produto pelo código.</p>
+  <p><strong>Requisitos:</strong></p>
+  <ul>
+    <li>Cliente informa o código do produto</li>
+    <li>Sistema busca no banco de dados</li>
+    <li>Produto é retornado ou mensagem de erro é exibida</li>
+  </ul>
+  <p><em>Utilize o fragmento <strong>alt</strong>.</em></p>
+
+  <h2>Exercício 5 – Compra de produto</h2>
+  <p><strong>Cenário:</strong> Cliente realiza a compra de um produto disponível em estoque.</p>
+  <p><strong>Requisitos:</strong></p>
+  <ul>
+    <li>Cliente seleciona o produto</li>
+    <li>Sistema verifica o estoque</li>
+    <li>Pedido é criado</li>
+    <li>Estoque é atualizado</li>
+  </ul>
+
+  <h2>Exercício 6 – Compra com estoque insuficiente</h2>
+  <p><strong>Cenário:</strong> Compra de produto com possibilidade de falta de estoque.</p>
+  <p><strong>Requisitos:</strong></p>
+  <ul>
+    <li>Sistema verifica o estoque</li>
+    <li>Se não houver quantidade suficiente, a compra é cancelada</li>
+    <li>Cliente é informado</li>
+  </ul>
+  <p><em>Utilize o fragmento <strong>alt</strong>.</em></p>
+
+  <h2>Exercício 7 – Pagamento com cartão</h2>
+  <p><strong>Cenário:</strong> Cliente realiza pagamento com cartão de crédito.</p>
+  <p><strong>Requisitos:</strong></p>
+  <ul>
+    <li>Sistema envia dados ao gateway de pagamento</li>
+    <li>Pagamento é autorizado ou negado</li>
+    <li>Sistema registra o resultado</li>
+  </ul>
+
+  <h2>Exercício 8 – Recuperação de senha</h2>
+  <p><strong>Cenário:</strong> Usuário solicita recuperação de senha.</p>
+  <p><strong>Requisitos:</strong></p>
+  <ul>
+    <li>Usuário informa o e-mail</li>
+    <li>Sistema valida o e-mail</li>
+    <li>Sistema gera um token</li>
+    <li>E-mail de recuperação é enviado</li>
+  </ul>
+
+  <h2>Exercício 9 – Pedido com múltiplos itens</h2>
+  <p><strong>Cenário:</strong> Cliente monta um pedido com vários produtos.</p>
+  <p><strong>Requisitos:</strong></p>
+  <ul>
+    <li>Cliente adiciona itens ao pedido</li>
+    <li>Para cada item, o estoque é verificado</li>
+    <li>Item é adicionado ao pedido</li>
+  </ul>
+  <p><em>Utilize o fragmento <strong>loop</strong>.</em></p>
+
+  <h2>Exercício 10 – Caso completo (desafio)</h2>
+  <p><strong>Cenário:</strong> Processo completo de compra em um e-commerce.</p>
+  <p><strong>Inclua no diagrama:</strong></p>
+  <ul>
+    <li>Login do usuário</li>
+    <li>Consulta de produtos</li>
+    <li>Adição ao carrinho</li>
+    <li>Pagamento</li>
+    <li>Confirmação do pedido</li>
+  </ul>
+  <p><em>Utilize fragmentos <strong>alt</strong>, <strong>loop</strong> e criação de objetos.</em></p>
+
+
+</body>
+</html>

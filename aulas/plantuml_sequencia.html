@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cheatsheet — PlantUML (Diagramas de Sequência)</title>
+
+<style>
+:root{
+  --fg:#111827;
+  --bg:#ffffff;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --card:#ffffff;
+  --code:#f4f4f4;
+  --maxw:900px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --fg:#e5e7eb;
+    --bg:#0b0f14;
+    --muted:#9ca3af;
+    --line:#243042;
+    --card:#0f172a;
+    --code:#111827;
+  }
+}
+html, body{
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+}
+main{
+  max-width: var(--maxw);
+  margin: 40px auto;
+  padding: 0 20px;
+}
+h1, h2, h3{
+  font-weight: 700;
+  margin-top: 0;
+}
+h1{ font-size: 38px; margin-bottom: 6px; }
+h2{ font-size: 26px; margin-top: 40px; }
+h3{ font-size: 20px; }
+p, li{
+  font-size: 18px;
+}
+ul{ padding-left: 22px; }
+
+.box{
+  border-left: 5px solid var(--fg);
+  padding-left: 15px;
+  margin: 30px 0;
+}
+.section{
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 30px 0;
+}
+.section.alt{
+  background: var(--code);
+}
+code{
+  background: var(--code);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+pre{
+  background: var(--code);
+  padding: 12px;
+  border-radius: 8px;
+  overflow: auto;
+  font-size: 20px;
+  line-height: 1.5;
+}
+pre code{
+  font-size: 20px;
+  line-height: 1.5;
+}
+.footer{
+  margin-top: 50px;
+  padding-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<h1>Cheatsheet — PlantUML</h1>
+<p class="lead">Diagramas de Sequência</p>
+
+<div class="box">
+  <h2>Propósito</h2>
+  <p>
+    Fornecer um guia rápido com os comandos essenciais do PlantUML para criar
+    <strong>Diagramas de Sequência</strong>, mostrando a ordem de interação
+    entre atores, objetos e camadas do sistema.
+  </p>
+</div>
+
+<h2>1) Estrutura básica</h2>
+<div class="section">
+<pre><code>@startuml
+... elementos ...
+@enduml</code></pre>
+</div>
+
+<h2>2) Participantes</h2>
+<div class="section alt">
+<pre><code>actor Usuario
+participant Sistema
+participant "Banco de Dados" as BD
+participant Controller
+participant Service</code></pre>
+</div>
+
+<h2>3) Mensagens</h2>
+<div class="section">
+<pre><code>Usuario -> Sistema : solicitarLogin()
+Sistema --> Usuario : resposta</code></pre>
+</div>
+
+<h2>4) Fluxo básico de interação</h2>
+<div class="section alt">
+<pre><code>@startuml
+actor Usuario
+participant Sistema
+participant BD
+
+Usuario -> Sistema : informarCredenciais()
+Sistema -> BD : validarUsuario()
+BD --> Sistema : ok
+Sistema --> Usuario : acessoLiberado()
+@enduml</code></pre>
+</div>
+
+<h2>5) Ativação (foco de execução)</h2>
+<div class="section">
+<pre><code>Usuario -> Sistema : login()
+activate Sistema
+Sistema -> BD : consultar()
+activate BD
+BD --> Sistema : dados
+deactivate BD
+Sistema --> Usuario : resposta
+deactivate Sistema</code></pre>
+</div>
+
+<h2>6) Condição (alt / else)</h2>
+<div class="section alt">
+<pre><code>alt Credenciais válidas
+  Sistema --> Usuario : acesso permitido
+else Credenciais inválidas
+  Sistema --> Usuario : erro de login
+end</code></pre>
+</div>
+
+<h2>7) Fluxo opcional (opt)</h2>
+<div class="section">
+<pre><code>opt Usuário esqueceu a senha
+  Usuario -> Sistema : solicitarRecuperacao()
+  Sistema --> Usuario : email enviado
+end</code></pre>
+</div>
+
+<h2>8) Repetição (loop)</h2>
+<div class="section alt">
+<pre><code>loop enquanto houver itens
+  Sistema -> BD : processarItem()
+end</code></pre>
+</div>
+
+<h2>9) Mensagens assíncronas</h2>
+<div class="section">
+<pre><code>Sistema ->> Fila : publicarEvento()</code></pre>
+</div>
+
+<h2>10) Criação e destruição de objetos</h2>
+<div class="section alt">
+<pre><code>Sistema -> Pedido : &lt;&lt;create&gt;&gt;
+destroy Pedido</code></pre>
+</div>
+
+<h2>11) Notas</h2>
+<div class="section">
+<pre><code>note right of Sistema
+ Validação ocorre
+ com base no CPF
+end note
+
+Sistema .. note right : Camada de serviço</code></pre>
+</div>
+
+<h2>12) Organização visual</h2>
+<div class="section alt">
+<pre><code>left to right direction
+
+box "Camada de Serviço"
+  participant Controller
+  participant Service
+end box</code></pre>
+</div>
+
+<h2>13) Exemplo completo e funcional</h2>
+<div class="section">
+<pre><code>@startuml
+actor Cliente
+participant "Web App" as App
+participant Controller
+participant Service
+participant "Banco de Dados" as BD
+
+Cliente -> App : clicarComprar()
+App -> Controller : enviarPedido()
+
+activate Controller
+Controller -> Service : processarPedido()
+activate Service
+
+Service -> BD : salvarPedido()
+BD --> Service : ok
+
+Service --> Controller : pedidoCriado
+deactivate Service
+
+Controller --> App : confirmação
+deactivate Controller
+
+App --> Cliente : pedido realizado
+@enduml</code></pre>
+</div>
+
+<p class="footer">
+Cheatsheet PlantUML – Diagramas de Sequência • 2026
+</p>
+
+</main>
+</body>
+</html>
