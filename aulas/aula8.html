@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Aula – Diagrama de Sequência e Arquiteturas</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        h1, h2, h3 {
+            font-weight: bold;
+            margin-top: 30px;
+        }
+
+        h1 {
+            border-bottom: 2px solid #000;
+            padding-bottom: 6px;
+        }
+
+        h2 {
+            border-left: 5px solid #000;
+            padding-left: 10px;
+        }
+
+        p, ul {
+            max-width: 900px;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        code {
+            background-color: #f2f2f2;
+            padding: 2px 4px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        pre {
+            background-color: #f8f8f8;
+            color: #000;
+            padding: 15px;
+            border: 1px solid #000;
+            overflow-x: auto;
+            max-width: 1000px;
+        }
+
+        .box {
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 25px 0;
+        }
+
+        .alerta {
+            border: 2px dashed #000;
+            padding: 15px;
+            margin: 25px 0;
+            font-style: italic;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #000;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Diagrama de Sequência como Ponte para Arquiteturas</h1>
+
+<p>
+Nesta aula utilizamos o <strong>Diagrama de Sequência</strong> como base para compreender
+<strong>arquiteturas de software</strong>, especialmente MVC, MVP e MVVM.
+</p>
+
+<hr>
+
+<h2>Objetivos da Aula</h2>
+<ul>
+    <li>Revisar o diagrama de sequência</li>
+    <li>Relacionar fluxo de mensagens com arquitetura</li>
+    <li>Entender MVC na prática</li>
+    <li>Comparar MVC, MVP e MVVM</li>
+    <li>Identificar boas e más práticas</li>
+</ul>
+
+<hr>
+
+<h2>1. Diagrama de Sequência</h2>
+
+<p>
+O diagrama de sequência representa o <strong>comportamento dinâmico</strong>
+de um sistema, destacando a ordem das interações entre objetos.
+</p>
+
+<div class="box">
+    <strong>Pergunta-chave:</strong><br>
+    Quem conversa com quem para realizar um caso de uso?
+</div>
+
+<h3>Exemplo 1 – Cadastrar Usuário (sem arquitetura definida)</h3>
+
+<pre><code>@startuml
+actor Usuario
+
+participant "TelaCadastro" as Tela
+participant "Sistema" as Sistema
+participant "BancoDados" as BD
+
+Usuario -> Tela : preencherDados()
+Tela -> Sistema : enviarDados(dados)
+Sistema -> BD : insertUsuario(dados)
+BD --> Sistema : OK
+Sistema --> Tela : sucesso()
+Tela --> Usuario : mensagemSucesso()
+@enduml</code></pre>
+
+<ul>
+    <li>O que é o objeto <code>Sistema</code>?</li>
+    <li>Onde está a regra de negócio?</li>
+    <li>Esse modelo é sustentável?</li>
+</ul>
+
+<hr>
+
+<h2>2. Arquitetura e Organização do Fluxo</h2>
+
+<p>
+Arquitetura define responsabilidades e limita quem pode se comunicar com quem.
+Isso aparece claramente no diagrama de sequência.
+</p>
+
+<div class="box">
+    Um diagrama de sequência bem feito revela a arquitetura em funcionamento.
+</div>
+
+<hr>
+
+<h2>3. MVC no Diagrama de Sequência</h2>
+
+<ul>
+    <li><strong>View</strong>: interface</li>
+    <li><strong>Controller</strong>: controle do fluxo</li>
+    <li><strong>Model</strong>: regra de negócio e dados</li>
+</ul>
+
+<h3>Exemplo 2 – Cadastrar Usuário com MVC</h3>
+
+<pre><code>@startuml
+actor Usuario
+
+participant "View\n(TelaCadastro)" as View
+participant "Controller\n(UsuarioController)" as Controller
+participant "Model\n(UsuarioService)" as Model
+participant "Repository\n(UsuarioRepository)" as Repo
+participant "Banco de Dados" as BD
+
+Usuario -> View : preencherDados()
+View -> Controller : cadastrarUsuario(dados)
+Controller -> Model : validarECriarUsuario(dados)
+Model -> Repo : salvar(usuario)
+Repo -> BD : INSERT usuario
+BD --> Repo : OK
+Repo --> Model : sucesso
+Model --> Controller : usuarioCriado
+Controller --> View : exibirSucesso()
+@enduml</code></pre>
+
+<ul>
+    <li>Separação clara de responsabilidades</li>
+    <li>Baixo acoplamento</li>
+    <li>Facilidade de manutenção</li>
+</ul>
+
+<hr>
+
+<h2>4. Exemplo de Anti‑Padrão</h2>
+
+<div class="alerta">
+    Violação de arquitetura: a interface acessando diretamente o banco de dados.
+</div>
+
+<pre><code>@startuml
+actor Usuario
+participant "TelaCadastro" as View
+participant "Banco de Dados" as BD
+
+Usuario -> View : preencherDados()
+View -> BD : INSERT usuario
+BD --> View : OK
+View --> Usuario : sucesso()
+@enduml</code></pre>
+
+<ul>
+    <li>Alto acoplamento</li>
+    <li>Dificuldade de testes</li>
+    <li>Manutenção comprometida</li>
+</ul>
+
+<hr>
+
+<h2>5. Comparação de Arquiteturas</h2>
+
+<h3>MVP – Model View Presenter</h3>
+
+<pre><code>@startuml
+actor Usuario
+
+participant "View" as View
+participant "Presenter" as Presenter
+participant "Service" as Model
+
+Usuario -> View : clicarSalvar()
+View -> Presenter : onSalvar(dados)
+Presenter -> Model : cadastrarUsuario(dados)
+Model --> Presenter : sucesso
+Presenter -> View : mostrarMensagem()
+@enduml</code></pre>
+
+<h3>MVVM – Model View ViewModel</h3>
+
+<pre><code>@startuml
+actor Usuario
+
+participant "View" as View
+participant "ViewModel" as VM
+participant "Model" as Model
+
+Usuario -> View : interagir()
+View -> VM : atualizarPropriedade()
+VM -> Model : processarDados()
+Model --> VM : resultado
+VM --> View : notificarMudanca()
+@enduml</code></pre>
+
+<hr>
+
+<h2>6. Encerramento</h2>
+
+<div class="box">
+    Diagramas de sequência ajudam a enxergar a arquitetura,
+    o acoplamento e a qualidade do design do software.
+</div>
+
+<ul>
+    <li>Arquitetura em camadas</li>
+    <li>SOLID</li>
+    <li>Arquitetura Limpa</li>
+    <li>Testabilidade</li>
+</ul>
+
+<p><em>Fim da aula</em></p>
+
+</body>
+</html>

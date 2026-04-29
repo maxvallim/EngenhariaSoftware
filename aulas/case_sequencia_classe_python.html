@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>MVC + Service + Repository com SQLite</title>
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #ffffff;
+        color: #000000;
+        margin: 40px;
+        line-height: 1.6;
+    }
+
+    h1 {
+        font-size: 32px;
+        border-bottom: 3px solid #000;
+        padding-bottom: 8px;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        font-size: 22px;
+        border-bottom: 2px solid #000;
+        padding-bottom: 6px;
+        margin-top: 50px;
+    }
+
+    h3 {
+        margin-top: 30px;
+    }
+
+    p {
+        max-width: 900px;
+        font-size: 16px;
+    }
+
+    .box {
+        border: 1px solid #000;
+        padding: 15px;
+        margin: 12px 0;
+        max-width: 900px;
+    }
+
+    pre {
+        background-color: #f5f5f5;
+        border: 1px solid #000;
+        padding: 15px;
+        font-size: 14px;
+        overflow-x: auto;
+        max-width: 900px;
+    }
+
+    footer {
+        margin-top: 60px;
+        padding-top: 20px;
+        border-top: 2px solid #000;
+        font-size: 14px;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Arquitetura MVC + Service + Repository (SQLite)</h1>
+
+<p>
+Exemplo completo de arquitetura de software com separação de responsabilidades,
+utilizando MVC, Service Layer e Repository, com persistência em SQLite e diagramas UML
+em PlantUML.
+</p>
+
+<h2>Responsabilidades das Camadas</h2>
+
+<div class="box"><strong>Model</strong>: Entidade do domínio, apenas dados.</div>
+<div class="box"><strong>Repository</strong>: Persistência e acesso aos dados.</div>
+<div class="box"><strong>Service</strong>: Regras de negócio.</div>
+<div class="box"><strong>Controller</strong>: Orquestra as ações do sistema.</div>
+<div class="box"><strong>View</strong>: Apresentação dos dados.</div>
+
+<h2>Diagrama de Classes (PlantUML)</h2>
+
+<p>Representa a estrutura estática do sistema.</p>
+
+<pre>
+@startuml
+class Usuario {
+    id: int
+    nome: str
+    email: str
+}
+
+class UsuarioView {
+    +mostrar_usuarios(usuarios)
+    +mostrar_mensagem(msg)
+}
+
+class UsuarioController {
+    +criar(nome, email)
+    +listar()
+}
+
+class UsuarioService {
+    +criar_usuario(nome, email)
+    +listar_usuarios(): List<Usuario>
+}
+
+class UsuarioRepository {
+    +salvar(usuario: Usuario)
+    +listar(): List<Usuario>
+}
+
+UsuarioView --> UsuarioController
+UsuarioController --> UsuarioService
+UsuarioService --> UsuarioRepository
+UsuarioService --> Usuario
+@enduml
+</pre>
+
+<h2>Diagrama de Sequência – Criar Usuário (PlantUML)</h2>
+
+<p>Representa o fluxo de execução para o cadastro de um usuário.</p>
+
+<pre>
+@startuml
+actor Usuario
+participant View
+participant Controller
+participant Service
+participant Repository
+database SQLite
+
+Usuario -> View : preenche dados\n(nome, email)
+View -> Controller : criar(nome, email)
+
+Controller -> Service : criar_usuario(nome, email)
+Service -> Service : validar email
+Service -> Repository : salvar(usuario)
+Repository -> SQLite : INSERT
+SQLite --> Repository : OK
+Repository --> Service : OK
+Service --> Controller : sucesso
+
+Controller -> View : resultado da operação
+View -> Usuario : mensagem de sucesso
+@enduml
+</pre>
+
+<h2>Estrutura de Pastas</h2>
+
+<pre>
+project/
+ ├── controller/
+ │   └── usuario_controller.py
+ ├── service/
+ │   └── usuario_service.py
+ ├── repository/
+ │   └── usuario_repository.py
+ ├── model/
+ │   └── usuario.py
+ ├── view/
+ │   └── usuario_view.py
+ ├── db/
+ │   └── database.py
+ └── main.py
+</pre>
+
+<h2>Códigos Python</h2>
+
+<h3>Model – usuario.py</h3>
+<pre>
+class Usuario:
+    def __init__(self, nome: str, email: str, id: int = None):
+        self.id = id
+        self.nome = nome
+        self.email = email
+</pre>
+
+<h3>Banco de Dados – database.py</h3>
+<pre>
+import sqlite3
+
+def get_connection():
+    conn = sqlite3.connect("usuarios.db")
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            email TEXT NOT NULL
+        )
+    """)
+    return conn
+</pre>
+
+<h3>Repository – usuario_repository.py</h3>
+<pre>
+from db.database import get_connection
+from model.usuario import Usuario
+
+class UsuarioRepository:
+
+    def salvar(self, usuario: Usuario):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO usuarios (nome, email) VALUES (?, ?)",
+            (usuario.nome, usuario.email)
+        )
+        conn.commit()
+        conn.close()
+
+    def listar(self):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, nome, email FROM usuarios")
+        rows = cursor.fetchall()
+        conn.close()
+        return [Usuario(r[1], r[2], r[0]) for r in rows]
+</pre>
+
+<h3>Service – usuario_service.py</h3>
+<pre>
+from model.usuario import Usuario
+from repository.usuario_repository import UsuarioRepository
+
+class UsuarioService:
+
+    def __init__(self):
+        self.repository = UsuarioRepository()
+
+    def criar_usuario(self, nome, email):
+        if "@" not in email:
+            raise ValueError("Email inválido")
+        usuario = Usuario(nome, email)
+        self.repository.salvar(usuario)
+
+    def listar_usuarios(self):
+        return self.repository.listar()
+</pre>
+
+<h3>Controller – usuario_controller.py</h3>
+<pre>
+from service.usuario_service import UsuarioService
+
+class UsuarioController:
+
+    def __init__(self, view):
+        self.service = UsuarioService()
+        self.view = view
+
+    def criar_usuario(self):
+        nome, email = self.view.obter_dados_usuario()
+        self.service.criar_usuario(nome, email)
+        self.view.mostrar_mensagem("Usuário criado com sucesso!")
+
+    def listar_usuarios(self):
+        usuarios = self.service.listar_usuarios()
+        self.view.mostrar_usuarios(usuarios)
+</pre>
+
+<h3>View – usuario_view.py</h3>
+<pre>
+class UsuarioView:
+
+    def mostrar_menu(self):
+        print("1 - Criar usuário")
+        print("2 - Listar usuários")
+        print("0 - Sair")
+
+    def obter_dados_usuario(self):
+        nome = input("Nome: ")
+        email = input("Email: ")
+        return nome, email
+
+    def mostrar_usuarios(self, usuarios):
+        print("\n=== Usuários ===")
+        for u in usuarios:
+            print(f"{u.id} - {u.nome} ({u.email})")
+        print("================")
+
+    def mostrar_mensagem(self, mensagem):
+        print(mensagem)
+</pre>
+
+<h3>main.py</h3>
+<pre>
+from controller.usuario_controller import UsuarioController
+from view.usuario_view import UsuarioView
+
+def main():
+    view = UsuarioView()
+    controller = UsuarioController(view)
+
+    while True:
+        view.mostrar_menu()
+        opcao = input("Opção: ")
+
+        if opcao == "1":
+            controller.criar_usuario()
+        elif opcao == "2":
+            controller.listar_usuarios()
+        elif opcao == "0":
+            break
+        else:
+            view.mostrar_mensagem("Opção inválida")
+
+if __name__ == "__main__":
+    main()
+</pre>
+
+<footer>
+Arquitetura de Software • MVC • Service Layer • Repository • PlantUML • SQLite
+</footer>
+
+</body>
+</html>
